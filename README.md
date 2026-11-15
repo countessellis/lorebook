@@ -1,4 +1,4 @@
-![Dress](resources/lorebook.png)
+![Lorebook](resources/lorebook-small.png)
 
 ---
 ---
@@ -17,3 +17,4 @@ An experiment in programming as storytelling and storytelling as code.
 ---
 
 ©2026 Bethany Davis <ellis@despoena.com>.
+
