@@ -1,0 +1,41 @@
+[package]
+name = "lorebook"
+license = "MIT"
+authors = ["Bethany Davis <ellis@despoena.com>"]
+description = "An experiment in programming as storytelling and storytelling as code."
+repository = "https://github.com/countessellis/lorebook"
+version = "0.1.0"
+edition = "2024"
+default-run = "lorebook"
+
+[[bin]]
+name = "lorebook"
+path = "src/bin/lorebook.rs"
+
+[lib]
+name = "lorebook"
+path = "src/lib.rs"
+
+[dependencies]
+env_logger = "0.11"
+log = "0.4"
+mimalloc = "0.1"
+nu-ansi-term = "0.50"
+regex = "1.13"
+
+[build-dependencies]
+chrono = "0.4"
+
+[profile.dev]
+opt-level = 1
+debug = true
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+debug-assertions = false
+overflow-checks = false
+package."*".opt-level = "s"
