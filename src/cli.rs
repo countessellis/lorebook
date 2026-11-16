@@ -6,19 +6,21 @@ use std::{
 
 use crate::config::*;
 use crate::defaults::*;
+use crate::tome::*;
 
 ///////////// CLI
 
 #[derive(Clone)]
 pub(crate) struct CLI {
   pub(crate) config: Config,
+  pub(crate) tome:   Tome,
 }
 
 impl CLI {
   pub(crate) fn new(config: &Config) -> Self {
-    
     Self {
      config: config.clone(),
+     tome:   Tome::new(),
     }
   }
 
@@ -38,6 +40,13 @@ impl CLI {
         let mut args: Vec<&str> = request.trim().split(" ").collect();
         let command: &str = args.remove(0);
         match command.to_lowercase().as_str() {
+          "new"|"compose" => {
+            self.tome.compose(&args[0].to_string());
+            println!("Starting to compose {}.",args[0]);
+          },
+          "contents"|"list" => {
+            self.tome.list().iter().for_each(|name| println!("{}",name));
+          },
           "exit"|"quit" => {
             break;
           },
