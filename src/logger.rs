@@ -10,7 +10,8 @@ use std::fs::create_dir_all;
 use std::path::PathBuf;
 use std::fs::OpenOptions;
 
-use crate::defaults::*;
+use crate::defaults::*; 
+use crate::splash::*; 
 
 ///////////// Logger
 
@@ -33,7 +34,19 @@ impl LogTarget {
         }
         let mut path = PathBuf::from(dir);
         path.push(filename);
-        match OpenOptions::new().create(true).append(true).open(&path) {
+        let file = match OpenOptions::new().create_new(true).write(true).open(&path) {
+          Ok(mut new_file) => {
+            if let Err(err) = writeln!(new_file,"{}",raw_splash()) {
+              eprintln!("Warning: Failed to write header to '{:?}' ({}).", path, err);
+            }
+            Ok(new_file)
+          }
+          Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+            OpenOptions::new().append(true).open(&path)
+          }
+          Err(err) => Err(err),
+        };
+        match file {
           Ok(file) => env_logger::fmt::Target::Pipe(Box::new(file)),
           Err(err) => {
             eprintln!("Warning: Failed to open log file '{:?}' ({}). Falling back to Stdout.", path, err);

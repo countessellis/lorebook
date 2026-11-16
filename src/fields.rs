@@ -15,9 +15,4 @@ impl Fields {
     }
     Fields { fields: fields }
   }
-
-  pub fn insert(&mut self,key: &str, value: String) {
-    self.fields.insert(key.to_string(),value);
-  }
-
 }

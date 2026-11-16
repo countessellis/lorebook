@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use env_logger::TimestampPrecision;
 use log::LevelFilter;
 

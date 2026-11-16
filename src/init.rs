@@ -5,8 +5,6 @@ use crate::mode::*;
 use crate::splash::*;
 use crate::version::*;
 
-use crate::defaults::*;
-
 ///////////// Run
 
 pub fn run() {

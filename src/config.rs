@@ -118,16 +118,6 @@ impl Config {
     self.from_string(&config);
   } 
   
-  pub fn load_file(&mut self, config_file: &String) {
-    log::info!("Loading config from {}.",config_file);
-    match fs::read_to_string(config_file) {
-      Ok(config) => {
-        self.from_string(&config);
-      },
-      Err(err) => log::warn!("Failed to read config from {}: {}",config_file,err),
-    }
-  }
-
   pub fn save_file(&mut self, config_file: &String) -> Result<String,String> {
     match fs::write(&config_file,Self::to_string(&self)) {
       Ok(()) => Ok(format!("Outputted config to {}",config_file)),
