@@ -41,6 +41,7 @@ pub(crate) const DEFAULT_PROMPT: &str = "Lorebook>";
 
 
 // Includes:
+pub(crate) const SPLASH_COLOUR:          u8    = 109;
 pub(crate) const SPLASH_PNG:             &[u8] = include_bytes!("../resources/lorebook.png");
 pub(crate) const SPLASH_TXT:             &str  = include_str!("../resources/lorebook.txt");
 pub(crate) const HELP_TEMPLATE:          &str  = include_str!("../resources/help.tpl");

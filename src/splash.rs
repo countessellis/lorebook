@@ -10,5 +10,5 @@ pub fn raw_splash() -> String {
 
 pub fn splash() -> String {
   let splash: String =  raw_splash();
-  format!("{}",Colour::Fixed(60).paint(splash))
+  format!("{}",Colour::Fixed(SPLASH_COLOUR).paint(splash))
 }
