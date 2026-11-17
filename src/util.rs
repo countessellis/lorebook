@@ -4,7 +4,7 @@ use std::{
 };
 
 use crate::defaults::*;
-use crate::fields::*;
+use crate::collections::Fields;
 
 pub(crate) fn bin_name() -> String {
   match env::current_exe() {
