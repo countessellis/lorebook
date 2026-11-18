@@ -40,3 +40,19 @@ pub fn render(template: &str, fields: &Fields) -> String {
   prompt
 }
 
+pub fn get_article(text: &str) -> &'static str {
+  let clean = text.trim();
+  if clean.is_empty() { return "a" }
+  let lower = clean.to_lowercase();
+  if lower.starts_with("uni") || lower.starts_with("use") || lower.starts_with("euro") || lower.starts_with("util") || lower.starts_with("ukr") || lower.starts_with("uga") || lower.starts_with("one") || lower.starts_with('1') { return "a" }
+  if lower.starts_with("hour") || lower.starts_with("honor") || lower.starts_with("honest") || lower.starts_with('8') || lower.starts_with("11") { return "an" }
+  if let Some(first_char) = lower.chars().next() {
+    match first_char {
+      'a' | 'e' | 'i' | 'o' | 'u' => "an",
+      _ => "a", 
+    }
+  } else {
+    "a"
+  }
+}
+

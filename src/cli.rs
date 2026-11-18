@@ -4,6 +4,8 @@ use std::{
   time::Duration,
 };
 
+use crate::util;
+
 use crate::config::*;
 use crate::defaults::*;
 use crate::tome::*;
@@ -94,6 +96,32 @@ impl CLI {
               log::error!("To list things, please specify the thing (stories,characters).");
               eprintln!("To list things, please specify the thing (stories,characters).");
             }
+          },
+          "add" => {
+            if args.len() > 4 {
+              match (args[0],args[1].parse::<u64>(),args[3],args[4].parse::<u64>()) {
+                ("character",Ok(thing),"story",Ok(add_to)) => {
+                  match self.tome.add_character_to_story(thing,add_to) {
+                    Ok(((_,character),(_,story))) => {
+                      log::info!("Added the {} called {} to the {} called {}",args[0],character,args[3],story);
+                      println!("Added the {} called {} to the {} called {}",args[0],character,args[3],story);
+                    },
+                    Err(err) => {
+                      log::error!("Failed to add the {} {} to the {} {}: {}",args[0],args[1],args[3],args[4],err);
+                      eprintln!("Failed to add the {} {} to the {} {}: {}",args[0],args[1],args[3],args[4],err);
+                    },
+                  }
+                },
+                _ => {
+                  log::error!("Adding {} {} to {} {} isn't implemented.",util::get_article(args[0]),args[0],util::get_article(args[3]),args[3]);
+                  eprint!("Adding {} {} to {} {} isn't implemented.",util::get_article(args[0]),args[0],util::get_article(args[3]),args[3]);
+                },
+              }
+            } else {
+              log::error!("To add things, please specify the thing (character), which specific thing (number), to another thing (story), and which other thing (number).");
+              eprintln!("To add things, please specify the thing (character), which specific thing (number), to another thing (story), and which other thing (number).");
+            }
+            
           },
           "exit"|"quit" => {
             break;

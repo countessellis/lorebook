@@ -23,10 +23,10 @@ impl fmt::Display for Sequence {
 }
 
 impl Deref for Sequence {
-    type Target = u64;
-    fn deref(&self) -> &Self::Target {
-        &self.sequence
-    }
+  type Target = u64;
+  fn deref(&self) -> &Self::Target {
+    &self.sequence
+  }
 }
 
 impl Sequence {
@@ -35,6 +35,11 @@ impl Sequence {
     if self.sequence == u64::MAX {
       log::error!("Maximum sequence reached!");
     }
+    self.sequence
+  }
+
+  pub fn update(&mut self, seq: u64) -> u64 {
+    self.sequence = seq;
     self.sequence
   }
 }

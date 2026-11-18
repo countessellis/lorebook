@@ -19,4 +19,9 @@ impl Story {
       characters: Table::new(),
     }
   }
+
+  pub fn add_character(&mut self, character: &Character) {
+    log::info!("Adding the character called {} to {}.",character.name,self.name);
+    self.characters.insert(character.id,character.clone());
+  }
 }

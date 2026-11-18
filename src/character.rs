@@ -1,4 +1,4 @@
-
+use crate::story::*;
 
 ///////////// Character
 
@@ -14,5 +14,10 @@ impl Character {
       id:   id,
       name: name.clone(),
     }
+  }
+
+  pub fn join_story(&self, story: &mut Story) {
+    log::info!("Adding the character called {} to {}.",self.name,story.name);
+    story.add_character(&self);
   }
 }
