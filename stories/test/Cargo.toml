@@ -1,0 +1,36 @@
+[package]
+name = "test"
+license = "MIT"
+authors = ["test@test.test"]
+description = "This is a Test"
+version = "0.1.0"
+edition = "2024"
+default-run = "test"
+
+[lib]
+name = "test"
+path = "src/lib.rs"
+
+[dependencies]
+env_logger = "0.11"
+log = "0.4"
+lorebook = { version = "0.1", path = "../../" }
+mimalloc = "0.1"
+
+[build-dependencies]
+chrono = "0.4"
+
+[profile.dev]
+opt-level = 1
+debug = true
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+debug-assertions = false
+overflow-checks = false
+package."*".opt-level = "s"
+
