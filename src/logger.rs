@@ -10,15 +10,15 @@ use std::fs::create_dir_all;
 use std::path::PathBuf;
 use std::fs::OpenOptions;
 
-use crate::defaults::*; 
-use crate::splash::*; 
+use crate::defaults::*;
+use crate::splash::*;
 
 ///////////// Logger
 
 #[allow(dead_code)]
 pub(crate) enum LogTarget {
   Stdout,
-  File(&'static str,&'static str), 
+  File(&'static str,&'static str),
 }
 
 impl LogTarget {
@@ -70,6 +70,7 @@ pub fn init() {
       }
     }
   }
+
   let filter_regex = if !redact_patterns.is_empty() {
     let unified_pattern = redact_patterns.join("|");
     Regex::new(&format!("({})", unified_pattern)).ok()
