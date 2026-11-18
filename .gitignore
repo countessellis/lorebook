@@ -1,9 +1,16 @@
 /logs/
 /*/logs/
+
 /config/
 /*/config/
+
 /cache/
 /*/cache/
+
 /target/
 /*/target/
+
 *.swp
+
+/stories/*/logs/
+/stories/*/target/
