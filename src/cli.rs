@@ -20,9 +20,13 @@ pub(crate) struct CLI {
 
 impl CLI {
   pub(crate) fn new(config: &Config) -> Self {
+    print!("Provide a name for this Lorebook tome: ");
+    stdout().flush().ok();
+    let mut name = String::new();
+    let _ = stdin().read_line(&mut name);
     Self {
      config: config.clone(),
-     tome:   Tome::new(),
+     tome:   Tome::new(0,&name.trim().to_string()),
     }
   }
 
@@ -34,7 +38,9 @@ impl CLI {
 ------------------------
 ",self.config.get("intro"));
     loop {
-      print!("{} ",self.config.get("prompt"));
+      let prompt = self.config.get("prompt");
+      let template = if prompt.is_empty() { "{}> " } else { &prompt };
+      print!("{}",template.replace("{}", &self.tome.name));
       stdout().flush().ok();
       let mut request = String::new();
       let _ = stdin().read_line(&mut request);
@@ -102,7 +108,7 @@ impl CLI {
               match (args[0],args[1].parse::<u64>(),args[3],args[4].parse::<u64>()) {
                 ("character",Ok(thing),"story",Ok(add_to)) => {
                   match self.tome.add_character_to_story(thing,add_to) {
-                    Ok(((_,character),(_,story))) => {
+                    Ok(((_,story),(_,character))) => {
                       log::info!("Added the {} called {} to the {} called {}",args[0],character,args[3],story);
                       println!("Added the {} called {} to the {} called {}",args[0],character,args[3],story);
                     },
@@ -122,6 +128,30 @@ impl CLI {
               eprintln!("To add things, please specify the thing (character), which specific thing (number), to another thing (story), and which other thing (number).");
             }
             
+          },
+          "export" => {
+            if args.len() > 1 {
+              match args[0] {
+                "as" => {
+                  match args[1] {
+                    "rust" => {
+                      println!("{}",self.tome.to_rust());
+                    },
+                    _ => {
+                      log::error!("Exporting to {} isn't implemented.",args[1]);
+                      eprint!("Exporting to {} isn't implemented.",args[1]);
+                    },
+                  }
+                },
+                _ => {
+                  log::error!("Exporting {} isn't implemented.",args[0]);
+                  eprint!("Exporting {} isn't implemented.",args[0]);
+                },
+              }
+            } else {
+              log::error!("To export provide either 'as FORMAT' or 'THING ID as FORMAT' where FORMAT is (rust) or 'THING' is (tome,story,character,setting) and ID is the id of the thing.");
+              eprintln!("To export provide either 'as FORMAT' or 'THING ID as FORMAT' where FORMAT is (rust) or 'THING' is (tome,story,character,setting) and ID is the id of the thing.");
+            }
           },
           "exit"|"quit" => {
             break;

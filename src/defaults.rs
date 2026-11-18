@@ -40,7 +40,7 @@ pub(crate) const MODE_LIST:      &[&str] = &[ "cli","help"];
 pub(crate) const DEFAULT_MODE:   &str = "cli";
 pub(crate) const DEFAULT_WAIT:   u64  = 1;
 pub(crate) const DEFAULT_INTRO:  &str = "  Long ago, when the dew of creation was fresh upon the fresh upon the heather, and the mists had not yet parted, and the stars in the skup were still few and bright...\n\n  Let us tell a tale together!\n";
-pub(crate) const DEFAULT_PROMPT: &str = "Lorebook>";
+pub(crate) const DEFAULT_PROMPT: &str = "[Lorebook] {}> ";
 
 
 // Includes:

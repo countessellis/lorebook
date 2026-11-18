@@ -1,3 +1,4 @@
+use crate::setting::*;
 use crate::story::*;
 
 ///////////// Character
@@ -17,7 +18,18 @@ impl Character {
   }
 
   pub fn join_story(&self, story: &mut Story) {
-    log::info!("Adding the character called {} to {}.",self.name,story.name);
+    log::info!("Character {}: Joining story called {}.",self.name,story.name);
     story.add_character(&self);
+  }
+
+  pub fn join_setting(&self, setting: &mut Setting) {
+    log::info!("Character {}: Joining setting called {}.",self.name,setting.name);
+    setting.add_character(&self);
+  }
+
+  pub fn to_rust(&self) -> String {
+    let mut instructions: Vec<String> = Vec::new();
+    instructions.push(format!("let mut character: Character = Character::new({},\"{}\");",self.id,self.name));
+    instructions.join("\n")
   }
 }
