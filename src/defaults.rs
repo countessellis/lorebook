@@ -27,6 +27,7 @@ pub(crate) const DEFAULT_LOG_DIR:              &'static str                     
 pub(crate) const DEFAULT_LOG_FILE:             &'static str                                = "lorebook.log";
 //pub(crate) const DEFAULT_LOG_TARGET:           env_logger::fmt::Target                     = env_logger::fmt::Target::Stdout;
 pub(crate) const DEFAULT_LOG_TARGET:           LogTarget                                   = LogTarget::File(DEFAULT_LOG_DIR, DEFAULT_LOG_FILE);
+pub(crate) const DEFAULT_LOG_NO_DEBUG_MODULES: &[&str]                                     = &[];
 pub(crate) const REDACT_LOG_LIST:              &str                                        = "config/redact_list.txt";
 
 // Path Constants:
