@@ -29,7 +29,7 @@ impl Character {
 
   pub fn to_rust(&self) -> String {
     let mut instructions: Vec<String> = Vec::new();
-    instructions.push(format!("let mut character: Character = Character::new({},\"{}\");",self.id,self.name));
+    instructions.push(format!("let character: Character = Character::new({},&\"{}\".to_string());",self.id,self.name));
     instructions.join("\n")
   }
 }

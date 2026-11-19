@@ -48,7 +48,7 @@ impl Story {
 
   pub fn to_rust(&self) -> String {
     let mut instructions: Vec<String> = Vec::new();
-    instructions.push(format!("let mut story: Story = Story::new({},\"{}\");",self.id,self.name));
+    instructions.push(format!("let mut story: Story = Story::new({},&\"{}\".to_string());",self.id,self.name));
     for (id,character) in &self.characters {
       instructions.push(character.to_rust());
       instructions.push(format!("story.characters.insert({},character);",id));

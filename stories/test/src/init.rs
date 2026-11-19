@@ -1,5 +1,5 @@
 use crate::version::*;
-use crate::story;
+use crate::compose;
 
 use lorebook::Tome;
 
@@ -8,7 +8,7 @@ use lorebook::Tome;
 pub fn run() {
   println!("{}",version());
   log::info!("{}",version());
-  let mut tome: Tome = story::start();
+  let tome: Tome = compose::start();
   println!(
 "  Stories:
 
