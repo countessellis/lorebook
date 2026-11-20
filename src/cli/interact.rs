@@ -19,9 +19,14 @@ impl CLI {
 ------------------------
 ",self.config.get("intro"));
     loop {
+      let tome = self.library.active();
       let prompt = self.config.get("prompt");
       let template = if prompt.is_empty() { "{}> " } else { &prompt };
-      print!("{}",template.replace("{}", &self.tome.name));
+      if let Some(tome) = tome {
+        print!("{}",template.replace("{}", &tome.name));
+      } else {
+        print!("{}",prompt);
+      }
       stdout().flush().ok();
       let mut request = String::new();
       let _ = stdin().read_line(&mut request);

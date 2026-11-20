@@ -3,14 +3,14 @@ use std::{
 };
 
 use crate::config::*;
-use crate::tome::*;
+use crate::elements::Library;
 
 ///////////// CLI
 
 #[derive(Clone)]
 pub(crate) struct CLI {
-  pub(crate) config: Config,
-  pub(crate) tome:   Tome,
+  pub(crate) config:  Config,
+  pub(crate) library: Library,
 }
 
 impl CLI {
@@ -19,9 +19,12 @@ impl CLI {
     stdout().flush().ok();
     let mut name = String::new();
     let _ = stdin().read_line(&mut name);
+    let mut library: Library = Library::new();
+    let id: u64 = library.create_tome(&name.trim().to_string());
+    library.set_active(id);
     Self {
-     config: config.clone(),
-     tome:   Tome::new(0,&name.trim().to_string()),
+     config:  config.clone(),
+     library: library,
     }
   }
 }

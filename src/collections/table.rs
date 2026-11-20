@@ -172,7 +172,7 @@ impl<T> Table<T> {
   }
 
   pub fn set_active(&mut self, active: u64) -> bool {
-    if active <= self.items.len() as u64 {
+    if active < self.items.len() as u64 {
       self.active = active;
       true
     } else { false }

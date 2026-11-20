@@ -5,6 +5,14 @@ use super::cli::CLI;
 impl CLI {
   pub(crate) fn process(&mut self, command: &str, args: &Vec<&str>) {
     match command {
+      "open" => {
+        if args.len() > 0 {
+          self.open(args[0]);
+        } else {
+          log::error!("To open a tome, please specify the id of the tome.");
+          eprintln!("To open a tome, please specify the id of the tome.");
+        }
+      },
       "compose" => {
         self.create("story",&args.join(" "));
       },
