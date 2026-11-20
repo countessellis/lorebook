@@ -9,6 +9,7 @@ use super::Sequence;
 #[derive(Debug,Clone)]
 pub struct Table<T> {
   sequence: Sequence,
+  active:   u64,
   items:    Vec<Option<T>>,
 }
 
@@ -161,8 +162,20 @@ impl<T> Table<T> {
   pub fn new() -> Self {
     Self {
       sequence: Default::default(),
+      active:   0,
       items:    Vec::new(),
     }
+  }
+
+  pub fn active(&mut self) -> Option<&mut T> {
+    self.get_mut(self.active)
+  }
+
+  pub fn set_active(&mut self, active: u64) -> bool {
+    if active <= self.items.len() as u64 {
+      self.active = active;
+      true
+    } else { false }
   }
 
   pub fn insert(&mut self, id: u64, item: T) {
