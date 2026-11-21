@@ -2,7 +2,7 @@ use std::{
   io::{stdin,stdout,Write},
 };
 
-use crate::config::*;
+use crate::collections::Config;
 use crate::elements::Library;
 
 ///////////// CLI
