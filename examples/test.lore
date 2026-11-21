@@ -1,0 +1,7 @@
+let main_lib = new library { name = "Grand Archive" };
+let lore_tome = new tome { name = "Second Book of Lore" };
+let hero = new character { name = "Aladdin" };
+
+add tome lore_tome to library main_lib;
+add character hero to tome lore_tome;
+

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://githubusercontent.com",
+  "name": "Lorebook",
+  "scopeName": "source.lorebook",
+  "fileTypes": ["lore"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#booleans" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "name": "comment.line.double-slash.lorebook",
+      "match": "//.*$"
+    },
+    "strings": {
+      "name": "string.quoted.double.lorebook",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.lorebook",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.integer.lorebook",
+      "match": "\\b[0-9]+\\b"
+    },
+    "booleans": {
+      "name": "constant.language.boolean.lorebook",
+      "match": "\\b(true|false)\\b"
+    },
+    "keywords": {
+      "name": "keyword.control.lorebook",
+      "match": "\\b(let|new|add|to)\\b"
+    },
+    "types": {
+      "name": "storage.type.lorebook",
+      "match": "\\b(library|tome|story|setting|character)\\b"
+    },
+    "operators": {
+      "name": "keyword.operator.assignment.lorebook",
+      "match": "="
+    }
+  }
+}

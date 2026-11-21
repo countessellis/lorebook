@@ -1,0 +1,28 @@
+{
+  "name": "lorebook-syntax",
+  "displayName": "Lorebook Language Support",
+  "description": "Syntax highlighting for Lorebook (.lore) files",
+  "version": "0.1.0",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "lorebook",
+        "aliases": ["Lorebook", "lorebook"],
+        "extensions": [".lore"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "lorebook",
+        "scopeName": "source.lorebook",
+        "path": "./lorebook.tmLanguage.json"
+      }
+    ]
+  }
+}
