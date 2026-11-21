@@ -42,7 +42,7 @@
     },
     "types": {
       "name": "storage.type.lorebook",
-      "match": "\\b(library|tome|story|setting|character)\\b"
+      "match": "\\b(Library|Tome|Story|Setting|Character)\\b"
     },
     "operators": {
       "name": "keyword.operator.assignment.lorebook",

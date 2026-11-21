@@ -8,7 +8,7 @@ endif
 
 " 1. Keywords & Types (from EBNF literals)
 syntax keyword lorebookKeyword let new add to
-syntax keyword lorebookType    library tome story setting character
+syntax keyword lorebookType    Library Tome Story Setting Character
 syntax keyword lorebookBoolean true false
 
 " 2. Comments (from Examples)
