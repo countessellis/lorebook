@@ -10,26 +10,32 @@ pub struct Character {
 }
 
 impl Character {
-  pub fn new(id: u64, name: &String) -> Self {
+  pub fn new(id: u64, name: impl Into<String>) -> Self {
     Self {
       id:   id,
-      name: name.clone(),
+      name: name.into(),
     }
   }
 
-  pub fn join_story(&self, story: &mut Story) {
+  pub fn join_story(&self, story: &mut Story) -> u64 {
     log::info!("Character {}: Joining story called {}.",self.name,story.name);
-    story.add_character(&self);
+    story.add_character(&self)
   }
 
-  pub fn join_setting(&self, setting: &mut Setting) {
+  pub fn join_setting(&self, setting: &mut Setting) -> u64 {
     log::info!("Character {}: Joining setting called {}.",self.name,setting.name);
-    setting.add_character(&self);
+    setting.add_character(&self)
   }
 
   pub fn to_rust(&self) -> String {
-    let mut instructions: Vec<String> = Vec::new();
-    instructions.push(format!("let character: Character = Character::new({},&\"{}\".to_string());",self.id,self.name));
-    instructions.join("\n")
+    log::debug!("Character {}: Converting to rust code.",self.name);
+    let name = self.name.escape_default();
+    format!("let character: Character = Character::new({},\"{}\");",self.id,name)
+  }
+
+  pub fn to_lore(&self) -> String {
+    log::debug!("Character {}: Converting to lorebook code.",self.name);
+    let name = self.name.escape_default();
+    format!("let character = new Character {{ name = \"{}\" }};",name)
   }
 }
