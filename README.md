@@ -11,6 +11,7 @@ An experiment in programming as storytelling and storytelling as code.
 
 * [Changelog](CHANGELOG.md)
 * [To Do List](TODO.md)
+* [Design Decisions](DESIGN_DECISIONS.md)
 
 ---
 ---
