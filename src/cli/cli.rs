@@ -4,6 +4,7 @@ use std::{
 
 use crate::collections::Config;
 use crate::elements::Library;
+use crate::parser::Parser;
 
 ///////////// CLI
 
@@ -11,6 +12,7 @@ use crate::elements::Library;
 pub(crate) struct CLI {
   pub(crate) config:  Config,
   pub(crate) library: Library,
+  pub(crate) parser:  Parser,
 }
 
 impl CLI {
@@ -25,6 +27,7 @@ impl CLI {
     Self {
      config:  config.clone(),
      library: library,
+     parser:  Parser::new(&config),
     }
   }
 }

@@ -8,6 +8,8 @@ use super::cli::CLI;
 
 use crate::defaults::*;
 
+use crate::parser::Parser;
+
 ///////////// CLI
 
 impl CLI {
@@ -30,6 +32,16 @@ impl CLI {
       stdout().flush().ok();
       let mut request = String::new();
       let _ = stdin().read_line(&mut request);
+      match self.parser.parse_cli(&mut self.library,request.trim()) {
+        Ok(result) => {
+          log::debug!("Result: {}",result);
+          println!("{}",result);
+        },
+        Err(err)   => {
+          log::error!("Error: {}",err);
+          eprintln!("{}",err);
+        },
+      }
       if !request.trim().is_empty() {
         let mut args: Vec<&str> = request.trim().split(" ").collect();
         let command: &str = args.remove(0);

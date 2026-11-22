@@ -3,8 +3,16 @@ use std::{
 
 use crate::collections::Config;
 use crate::elements::*;
+use super::*;
+use super::helpers::*;
 
 ///////////// Parser
+
+pub enum LoreValue {
+  Str(String),
+  Num(i64),
+  Bool(bool),
+}
 
 #[derive(Clone)]
 pub struct Parser {
@@ -19,41 +27,37 @@ impl Parser {
   }
 
   pub fn parse(&self, code: &String) -> Result<Element,String> {
-    let statements: Vec<&str> = Self::split_statements(code.as_str());
+    let statements: Vec<&str> = Self::split_outside_quotes(code.as_str(),';');
     for statement in statements {
       // Do the parsing.
     }
     Ok(Element::Library(Library::new()))
   }
 
-  pub fn split_statements(input: &str) -> Vec<&str> {
-    let mut statements = Vec::new();
-    let mut start = 0;
-    let mut in_quotes = false;
-    let mut escaped = false;
-    for (idx, ch) in input.char_indices() {
-      if escaped {
-        escaped = false;
-        continue;
+  pub fn parse_cli(&self, library: &mut Library, line: &str) -> Result<String,String> {
+    if !line.trim().is_empty() {
+      let mut args: Vec<&str> = line.trim().split(" ").collect();
+      match args[0].to_lowercase().as_str() {
+        "exit"|"quit" => Ok(String::new()),
+        "compose" => {
+          if args.len() > 1 {
+            args.insert(1,"tome");
+            Self::create_cli(library,&args)
+          } else {
+            Err(format!("To compose a new tome, please include a title."))
+          }
+        },
+        "new"|"create" => {
+          if args.len() > 2 {
+            Self::create_cli(library,&args)
+          } else {
+            Err(format!("To create a new element, please include the type and a name ('new TYPE NAME')."))
+          }
+        },
+        _ => Err(format!("Invalid statement: {}",line)),
       }
-      if ch == '\\' && in_quotes {
-        escaped = true;
-        continue;
-      }
-      if ch == '"' {
-        in_quotes = !in_quotes;
-        continue;
-      }
-      if ch == ';' && !in_quotes {
-        let stmt = input[start..idx].trim();
-        if !stmt.is_empty() {
-          statements.push(stmt);
-        }
-        start = idx + 1; // ';' is 1 byte in UTF-8
-      }
+    } else {
+      Ok(String::new())
     }
-    let tail = input[start..].trim();
-    if !tail.is_empty() { statements.push(tail); }
-    statements
   }
 }

@@ -13,17 +13,7 @@ impl CLI {
           eprintln!("To open a tome, please specify the id of the tome.");
         }
       },
-      "compose" => {
-        self.create("story",&args.join(" "));
-      },
-      "new"|"create" => {
-        if args.len() > 1 {
-          self.create(args[0],&args[1..].join(" "));
-        } else {
-          log::error!("To create new things, please specify the thing (story,character) and its name.");
-          eprintln!("To create new things, please specify the thing (story,character) and its name.");
-        }
-      },
+      "compose"|"new"|"create" => {},
       "contents" => {
         self.list("stories");
       },
