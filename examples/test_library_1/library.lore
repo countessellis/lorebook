@@ -1,3 +1,4 @@
-// library.lore
+Library;
+
 include "book_of_lore.lore";
 include "second_book_of_lore.lore";
