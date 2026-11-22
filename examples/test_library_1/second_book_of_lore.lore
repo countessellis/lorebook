@@ -1,7 +1,9 @@
-let tome = new Tome { name = "Second Book of Lore" };
+Tome { name = "Second Book of Lore" };
+
 let arthur = new Character { name = "King Arthur" };
 let camelot = new Setting { name = "Camelot" };
 let round_table = new Story { name = "The Round Table" };
+
 add arthur to round_table;
 add camelot to round_table;
 add arthur to camelot in round_table;

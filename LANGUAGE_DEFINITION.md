@@ -6,7 +6,7 @@
 Script              ::= IncludeStatement* | (TomeHeader Statement*)
 
 IncludeStatement    ::= 'include' StringLiteral ';'
-TomeHeader          ::= 'tome' PropertyBlock ';'
+TomeHeader          ::= 'Tome' PropertyBlock ';'
 
 Statement           ::= IncludeStatement | AssignmentStatement | LinkStatement
 AssignmentStatement ::= 'let' Identifier '=' CreateExpression ';'
@@ -28,7 +28,7 @@ BooleanLiteral      ::= 'true' | 'false'
 ## Rules
 
 * Whitespace is insignificant except to separate tokens.
-* Every `.lore` tome file begins with a `tome { ... };` header defining that file's `Tome`.
+* Every `.lore` tome file begins with a `Tome { ... };` header defining that file's `Tome`.
 * All elements created with `let` in a tome file are automatically registered in that file's `Tome`.
 * Valid `add` relationships:
   * `Story` -> `Tome` (implicit)
@@ -44,7 +44,7 @@ include "book_of_lore.lore";
 include "second_book_of_lore.lore";
 
 // book_of_lore.lore
-tome { name = "Book of Lore" };
+Tome { name = "Book of Lore" };
 
 let aladdin = new Character { name = "Aladdin" };
 let cave_of_wonders = new Setting { name = "Cave of Wonders" };

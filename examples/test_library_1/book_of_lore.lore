@@ -1,7 +1,9 @@
-let tome = new Tome { name = "Book of Lore" };
+Tome { name = "Book of Lore" };
+
 let aladdin = new Character { name = "Aladdin" };
 let cave_of_wonders = new Setting { name = "Cave of Wonders" };
 let wonderous_lamp = new Story { name = "The Wonderous Lamp" };
+
 add aladdin to wonderous_lamp;
 add cave_of_wonders to wonderous_lamp;
 add aladdin to cave_of_wonders in wonderous_lamp;
