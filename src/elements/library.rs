@@ -19,7 +19,7 @@ impl Library {
   pub fn create_tome(&mut self, name: &String) -> u64 {
     log::info!("Creating new tome called {}.",name);
     let id: u64 = self.library.next();
-    let tome: Tome = Tome::new(id,name);
+    let tome: Tome = Tome::new(name);
     self.library.insert(id,tome);
     id
   }

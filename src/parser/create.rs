@@ -28,28 +28,28 @@ impl Parser {
           Ok(name) => name,
           Err(err) => return Err(err),
         };
-        Ok(Element::Tome(Tome::new(id, &name)))
+        Ok(Element::Tome(Tome::new(&name)))
       },
       "Story" => {
         let name = match Self::take_string(&mut properties, "name") {
           Ok(name) => name,
           Err(err) => return Err(err),
         };
-        Ok(Element::Story(Story::new(id, &name)))
+        Ok(Element::Story(Story::new(&name)))
       },
       "Setting" => {
         let name = match Self::take_string(&mut properties, "name") {
           Ok(name) => name,
           Err(err) => return Err(err),
         };
-        Ok(Element::Setting(Setting::new(id, &name)))
+        Ok(Element::Setting(Setting::new(&name)))
       },
       "Character" => {
         let name = match Self::take_string(&mut properties, "name") {
           Ok(name) => name,
           Err(err) => return Err(err),
         };
-        Ok(Element::Character(Character::new(id, &name)))
+        Ok(Element::Character(Character::new(&name)))
       },
       other => Err(format!("Unknown ElementType: '{}'", other)),
     }

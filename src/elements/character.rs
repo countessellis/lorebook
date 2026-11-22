@@ -5,14 +5,12 @@ use crate::story::*;
 
 #[derive(Debug,Clone)]
 pub struct Character {
-  pub id:   u64,
   pub name: String
 }
 
 impl Character {
-  pub fn new(id: u64, name: impl Into<String>) -> Self {
+  pub fn new(name: impl Into<String>) -> Self {
     Self {
-      id:   id,
       name: name.into(),
     }
   }
@@ -30,7 +28,7 @@ impl Character {
   pub fn to_rust(&self) -> String {
     log::debug!("Character {}: Converting to rust code.",self.name);
     let name = self.name.escape_default();
-    format!("let character: Character = Character::new({},\"{}\");",self.id,name)
+    format!("let character: Character = Character::new(\"{}\");",name)
   }
 
   pub fn to_lore(&self) -> String {

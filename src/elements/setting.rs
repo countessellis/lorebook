@@ -7,15 +7,13 @@ use crate::story::*;
 
 #[derive(Debug,Clone)]
 pub struct Setting {
-  pub id:         u64,
   pub name:       String,
   pub characters: Table<Character>,
 }
 
 impl Setting {
-  pub fn new(id: u64, name: impl Into<String>) -> Self {
+  pub fn new(name: impl Into<String>) -> Self {
     Self {
-      id:         id,
       name:       name.into(),
       characters: Table::new(),
     }
@@ -43,7 +41,7 @@ impl Setting {
     log::debug!("Setting {}: Converting to rust code.",self.name);
     let mut instructions: Vec<String> = Vec::new();
     let name = self.name.escape_default();
-    instructions.push(format!("let mut setting: Setting = Setting::new({},\"{}\");",self.id,name));
+    instructions.push(format!("let mut setting: Setting = Setting::new(\"{}\");",name));
     for (id,character) in &self.characters {
       instructions.push(character.to_rust());
       instructions.push(format!("setting.characters.insert({},character);",id));

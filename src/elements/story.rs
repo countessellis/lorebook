@@ -7,16 +7,14 @@ use crate::setting::*;
 
 #[derive(Debug,Clone)]
 pub struct Story {
-  pub id:         u64,
   pub name:       String,
   pub characters: Table<Character>,
   pub settings:   Table<Setting>,
 }
 
 impl Story {
-  pub fn new(id: u64, name: impl Into<String>) -> Self {
+  pub fn new(name: impl Into<String>) -> Self {
     Self {
-      id:         id,
       name:       name.into(),
       characters: Table::new(),
       settings:   Table::new(),
@@ -41,16 +39,16 @@ impl Story {
     id
   }
 
-  pub fn add_character_to_setting(&mut self, setting: u64, character: u64) -> Result<((u64,String),(u64,String),(u64,String)),String> {
-    match self.characters.get(character) {
-      Some(character) => match self.settings.get_mut(setting) {
+  pub fn add_character_to_setting(&mut self, setting_id: u64, character_id: u64) -> Result<((u64,String),(u64,String)),String> {
+    match self.characters.get(character_id) {
+      Some(character) => match self.settings.get_mut(setting_id) {
         Some(setting) => {
           character.join_setting(setting);
-          Ok(((self.id,self.name.clone()),(setting.id,setting.name.clone()),(character.id,character.name.clone())))
+          Ok(((setting_id,setting.name.clone()),(character_id,character.name.clone())))
         },
-        None => Err(format!("Story {}: No setting with id {} found",self.name,setting)),
+        None => Err(format!("Story {}: No setting with id {} found",self.name,setting_id)),
       },
-      None => Err(format!("Story {}: No character with id {} found",self.name,character)),
+      None => Err(format!("Story {}: No character with id {} found",self.name,character_id)),
     }
   }
 
@@ -81,7 +79,7 @@ impl Story {
     log::debug!("Story {}: Converting to rust code.",self.name);
     let mut instructions: Vec<String> = Vec::new();
     let name = self.name.escape_default();
-    instructions.push(format!("let mut story: Story = Story::new({},\"{}\");",self.id,name));
+    instructions.push(format!("let mut story: Story = Story::new(\"{}\");",name));
     for (id,character) in &self.characters {
       instructions.push(character.to_rust());
       instructions.push(format!("story.characters.insert({},character);",id));
