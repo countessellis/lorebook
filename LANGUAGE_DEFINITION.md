@@ -3,24 +3,23 @@
 ## Syntax
 
 ```ebnf
-Script              ::= Statement*
-Statement           ::= AssignmentStatement | LinkStatement
+Script              ::= IncludeStatement* | (TomeHeader Statement*)
 
+IncludeStatement    ::= 'include' StringLiteral ';'
+TomeHeader          ::= 'tome' PropertyBlock ';'
+
+Statement           ::= IncludeStatement | AssignmentStatement | LinkStatement
 AssignmentStatement ::= 'let' Identifier '=' CreateExpression ';'
 CreateExpression    ::= 'new' ElementType PropertyBlock?
 
-LinkStatement       ::= 'add' ValidLink ';'
-ValidLink           ::= 'Tome'      Identifier 'to' 'Library' Identifier
-                      | 'Story'     Identifier 'to' 'Tome'    Identifier
-                      | 'Setting'   Identifier 'to' ('Tome' | 'Story') Identifier
-                      | 'Character' Identifier 'to' ('Tome' | 'Setting' | 'Story') Identifier
+LinkStatement       ::= 'add' Identifier 'to' Identifier ('in' Identifier)? ';'
 
+ElementType         ::= 'Story' | 'Setting' | 'Character' 
 PropertyBlock       ::= '{' PropertyList? '}'
 PropertyList        ::= Property (',' Property)* ','?
 Property            ::= Identifier '=' LiteralValue
 LiteralValue        ::= StringLiteral | NumberLiteral | BooleanLiteral
 
-ElementType         ::= 'Library' | 'Tome' | 'Story' | 'Setting' | 'Character' 
 Identifier          ::= [a-zA-Z_][a-zA-Z0-9_]*
 StringLiteral       ::= '"' ('\\"' | [^"])* '"'
 NumberLiteral       ::= [0-9]+
@@ -29,17 +28,29 @@ BooleanLiteral      ::= 'true' | 'false'
 ## Rules
 
 * Whitespace is insignificant except to separate tokens.
-* Identifiers in `add` statements must reference variables initialized with the matching `ElementType`.
+* Every `.lore` tome file begins with a `tome { ... };` header defining that file's `Tome`.
+* All elements created with `let` in a tome file are automatically registered in that file's `Tome`.
+* Valid `add` relationships:
+  * `Story` -> `Tome` (implicit)
+  * `Setting` -> `Tome` (implicit) or `Story`
+  * `Character` -> `Tome` (implicit), `Setting`, or `Story`
+* The optional `in <Identifier>` clause scopes the target container inside a parent element (e.g., `add <Character> to <Setting> in <Story>;`).
 
 ## Examples
 
 ```text
-// Creating elements:
-let main_lib = new Library { name = "Grand Archive" };
-let lore_tome = new Tome { name = "Second Book of Lore" };
-let hero = new Character { name = "Aladdin" };
+// library.lore
+include "book_of_lore.lore";
+include "second_book_of_lore.lore";
 
-// Adding elements to other elements:
-add Tome lore_tome to Library main_lib;
-add Character hero to Tome lore_tome;
+// book_of_lore.lore
+tome { name = "Book of Lore" };
+
+let aladdin = new Character { name = "Aladdin" };
+let cave_of_wonders = new Setting { name = "Cave of Wonders" };
+let wonderous_lamp = new Story { name = "The Wonderous Lamp" };
+
+add aladdin to wonderous_lamp;
+add cave_of_wonders to wonderous_lamp;
+add aladdin to cave_of_wonders in wonderous_lamp;
 ```

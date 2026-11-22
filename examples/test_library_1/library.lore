@@ -1,0 +1,3 @@
+// library.lore
+include "book_of_lore.lore";
+include "second_book_of_lore.lore";

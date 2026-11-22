@@ -7,8 +7,8 @@ if exists("b:current_syntax")
 endif
 
 " 1. Keywords & Types (from EBNF literals)
-syntax keyword lorebookKeyword let new add to
-syntax keyword lorebookType    Library Tome Story Setting Character
+syntax keyword lorebookKeyword include let new add to in
+syntax keyword lorebookType    Tome Story Setting Character
 syntax keyword lorebookBoolean true false
 
 " 2. Comments (from Examples)
