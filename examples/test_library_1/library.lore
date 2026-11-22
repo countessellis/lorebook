@@ -2,3 +2,4 @@ Library;
 
 include "book_of_lore.lore";
 include "second_book_of_lore.lore";
+include "third/third_book_of_lore.lore";

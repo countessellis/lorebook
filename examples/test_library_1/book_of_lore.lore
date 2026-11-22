@@ -1,8 +1,8 @@
 Tome { name = "Book of Lore" };
 
-let aladdin = new Character { name = "Aladdin" };
-let cave_of_wonders = new Setting { name = "Cave of Wonders" };
-let wonderous_lamp = new Story { name = "The Wonderous Lamp" };
+has aladdin = new Character { name = "Aladdin" };
+has cave_of_wonders = new Setting { name = "Cave of Wonders" };
+has wonderous_lamp = new Story { name = "The Wonderous Lamp" };
 
 add aladdin to wonderous_lamp;
 add cave_of_wonders to wonderous_lamp;

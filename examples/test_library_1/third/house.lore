@@ -1,0 +1,3 @@
+Setting { name = "Grandma's House" };
+
+include "wolf.lore";

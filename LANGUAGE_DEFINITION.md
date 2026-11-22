@@ -8,7 +8,7 @@ FileHeader          ::= ElementType PropertyBlock? ';'
 
 Statement           ::= IncludeStatement | AssignmentStatement | LinkStatement
 IncludeStatement    ::= 'include' StringLiteral ';'
-AssignmentStatement ::= 'let' Identifier '=' CreateExpression ';'
+AssignmentStatement ::= ('let' | 'has') Identifier '=' CreateExpression ';'
 CreateExpression    ::= 'new' ElementType PropertyBlock?
 LinkStatement       ::= 'add' Identifier 'to' Identifier ('in' Identifier)? ';'
 
@@ -27,7 +27,10 @@ BooleanLiteral      ::= 'true' | 'false'
 
 * Whitespace is insignificant except to separate tokens.
 * Every `.lore` file begins with a `<ElementType> { ... };` header defining the root element of that file.
-* Elements created via `let` or imported via `include` are automatically registered inside the file's root element.
+* `let` binds a local variable in the current file without adding it to the file's root element.
+* `has` binds a local variable **and** immediately registers the element inside the file's root element (must obey valid containment rules).
+* `include "<path>";` parses the target `.lore` file (resolved relative to the current file's directory) and directly adds its root element to the current file's root element.
+* Elements created via `let` are bound to a local variable and automatically registered in the current file's root element.
 * Valid containment relationships (both for `include` and `add`):
   * `Library`: top-level only; accepts `Tome`.
   * `Tome`: accepts `Story`, `Setting`, and `Character`.
@@ -56,4 +59,18 @@ add aladdin to cave_of_wonders;
 
 // aladdin.lore
 Character { name = "Aladdin" };
+
+// Single-file Library example
+Library;
+
+has book_one = new Tome { name = "Book of Lore" };
+
+let aladdin = new Character { name = "Aladdin" };
+let cave_of_wonders = new Setting { name = "Cave of Wonders" };
+let wonderous_lamp = new Story { name = "The Wonderous Lamp" };
+
+add aladdin to wonderous_lamp;
+add cave_of_wonders to wonderous_lamp;
+add aladdin to cave_of_wonders in wonderous_lamp;
+add wonderous_lamp to book_one;
 ```

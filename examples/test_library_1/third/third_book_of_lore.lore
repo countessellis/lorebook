@@ -1,0 +1,7 @@
+Tome { name = "Third Book of Lore" };
+
+include "little_red_riding_hood.lore";
+include "woods.lore";
+include "house.lore";
+include "wolf.lore";
+include "red.lore";

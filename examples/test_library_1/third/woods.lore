@@ -1,0 +1,3 @@
+Setting { name = "The Dark Woods" };
+
+include "red.lore";

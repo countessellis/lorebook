@@ -1,7 +1,36 @@
-let main_lib = new library { name = "Grand Archive" };
-let lore_tome = new tome { name = "Second Book of Lore" };
-let hero = new character { name = "Aladdin" };
+Library;
 
-add tome lore_tome to library main_lib;
-add character hero to tome lore_tome;
+has book_one = new Tome { name = "Book of Lore" };
+has book_two = new Tome { name = "Second Book of Lore" };
+has book_three = new Tome { name = "Third Book of Lore" };
+
+let wonderous_lamp = new Story { name = "The Wonderous Lamp" };
+let round_table = new Story { name = "The Round Table" };
+let little_red_riding_hood = new Story { name = "Little Red Riding Hood" };
+
+let cave_of_wonders = new Setting { name = "Cave of Wonders" };
+let camelot = new Setting { name = "Camelot" };
+let woods = new Setting { name = "The Dark Woods" };
+let house = new Setting { name = "Grandma's House" };
+
+let aladdin = new Character { name = "Aladdin" };
+let arthur = new Character { name = "King Arthur" };
+let red = new Character { name = "Little Red Riding Hood" };
+let wolf = new Character { name = "The Big Bad Wolf" };
+
+add aladdin to wonderous_lamp;
+add cave_of_wonders to wonderous_lamp;
+add aladdin to cave_of_wonders in wonderous_lamp;
+add wonderous_lamp to book_one;
+
+add arthur to round_table;
+add camelot to round_table;
+add arthur to camelot in round_table;
+add round_table to book_two;
+
+add red to woods;
+add wolf to house;
+add woods to little_red_riding_hood;
+add house to little_red_riding_hood;
+add little_red_riding_hood to book_three;
 

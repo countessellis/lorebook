@@ -38,11 +38,11 @@
     },
     "keywords": {
       "name": "keyword.control.lorebook",
-      "match": "\\b(include|let|new|add|to|in)\\b"
+      "match": "\\b(include|has|let|new|add|to|in)\\b"
     },
     "types": {
       "name": "storage.type.lorebook",
-      "match": "\\b(Tome|Story|Setting|Character)\\b"
+      "match": "\\b(Library|Tome|Story|Setting|Character)\\b"
     },
     "operators": {
       "name": "keyword.operator.assignment.lorebook",

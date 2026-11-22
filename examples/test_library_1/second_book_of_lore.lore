@@ -1,8 +1,8 @@
 Tome { name = "Second Book of Lore" };
 
-let arthur = new Character { name = "King Arthur" };
-let camelot = new Setting { name = "Camelot" };
-let round_table = new Story { name = "The Round Table" };
+has arthur = new Character { name = "King Arthur" };
+has camelot = new Setting { name = "Camelot" };
+has round_table = new Story { name = "The Round Table" };
 
 add arthur to round_table;
 add camelot to round_table;

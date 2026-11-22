@@ -1,0 +1,6 @@
+Story { name = "Little Red Riding Hood" };
+
+include "woods.lore";
+include "house.lore";
+include "wolf.lore";
+include "red.lore";
