@@ -63,7 +63,7 @@ impl Mode {
         },
         "--cli"          => return Mode::CLI,
         "--help"|"-h"    => return Mode::Help,
-        "--version"|"-v" => return Mode::Version,
+        "--version"|"-V" => return Mode::Version,
         _ => {},
       }
     }
