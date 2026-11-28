@@ -33,8 +33,8 @@ Options:
 
   --prompt <PROMPT>                    Prompt template for interactive storytelling (default: [Lorebook] {}> )
 
-  --help                               Display this help message
-  --version                            Display version
+  --help | -h                          Display this help message
+  --version | -V                       Display version
 ```
 
 ## Syntax Highlighting
