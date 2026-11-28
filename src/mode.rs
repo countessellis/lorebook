@@ -10,6 +10,7 @@ use crate::util;
 pub(crate) enum Mode {
   CLI,
   Help,
+  Version,
 }
 
 impl Default for Mode {
@@ -28,9 +29,10 @@ impl FromStr for Mode {
   type Err = &'static str;
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s.to_lowercase().as_str() {
-      "cli"  => Ok(Mode::CLI),
-      "help" => Ok(Mode::Help),
-      _      => Ok(Default::default()),
+      "cli"     => Ok(Mode::CLI),
+      "help"    => Ok(Mode::Help),
+      "version" => Ok(Mode::Version),
+      _         => Ok(Default::default()),
     }
   }
 }
@@ -38,8 +40,9 @@ impl FromStr for Mode {
 impl fmt::Display for Mode {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let mode: &str = match self {
-      Mode::CLI  => "cli",
-      Mode::Help => "help",
+      Mode::CLI     => "cli",
+      Mode::Help    => "help",
+      Mode::Version => "version",
     };
     write!(f, "{}",mode)
   }
@@ -58,8 +61,9 @@ impl Mode {
           },
           None        => {},
         },
-        "--cli"  => return Mode::CLI,
-        "--help" => return Mode::Help,
+        "--cli"          => return Mode::CLI,
+        "--help"|"-h"    => return Mode::Help,
+        "--version"|"-v" => return Mode::Version,
         _ => {},
       }
     }

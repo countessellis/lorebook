@@ -14,6 +14,20 @@ An experiment in programming as storytelling and storytelling as code.
 * [Design Decisions](DESIGN_DECISIONS.md)
 * [Language Definition](LANGUAGE_DEFINITION.md)
 
+## Usage
+
+```
+Usage: lorebook [(OPTIONS)]
+
+  An experiment in programming as storytelling and storytelling as code.
+
+Options:
+
+  --mode <MODE>                        Mode to run in (default: cli, choices: cli, help)
+  --help                               Display this help message
+  --version                            Display version
+```
+
 ## Syntax Highlighting
 
 You can find the syntax highlighting files in [syntax_files/](syntax_files/), and can install them automatically on systems that have posix compatible shells (like sh, bash, and ksh) with:

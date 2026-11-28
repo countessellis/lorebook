@@ -19,6 +19,7 @@ impl fmt::Display for Help {
     let details: Vec<String> = vec![
       format!("  --mode <MODE>                        Mode to run in (default: {}, choices: {})",DEFAULT_MODE,MODE_LIST.join(", ")),
       format!("  --help                               Display this help message"),
+      format!("  --version                            Display version"),
     ];
     let fields: Fields = Fields::new(&HashMap::from([
       ("RUNAS",self.config.get("ranas")),
