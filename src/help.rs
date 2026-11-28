@@ -18,6 +18,10 @@ impl fmt::Display for Help {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let details: Vec<String> = vec![
       format!("  --mode <MODE>                        Mode to run in (default: {}, choices: {})",DEFAULT_MODE,MODE_LIST.join(", ")),
+      format!(""),
+      format!("  --intro <INTRO>                      Introduction to interactive storytelling default:\n\n{}",DEFAULT_INTRO),
+      format!("  --prompt <PROMPT>                    Prompt template for interactive storytelling (default: {})",DEFAULT_PROMPT),
+      format!(""),
       format!("  --help                               Display this help message"),
       format!("  --version                            Display version"),
     ];

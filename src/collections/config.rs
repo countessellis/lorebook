@@ -6,9 +6,101 @@ use std::{
   path::Path,
 };
 
-use crate::util;
+use super::util;
 
-use crate::defaults::*;
+///////////// Configurator
+
+#[derive(Debug, Clone)]
+pub struct Configurator {
+  pub defaults:  HashMap<String,String>,
+  pub file:      Option<(String,String)>,
+  pub ignore:    Vec<String>,
+  pub arguments: Vec<String>,
+  pub flags:     HashMap<String,ConfigFlag>,
+}
+
+impl Configurator {
+  pub fn to_config(&self) -> Config {
+    log::debug!("Setting config defaults.");
+    let mut config: Config = Config { config: self.defaults.clone() };
+    if let Some((ref config_dir,ref config_file)) = self.file {
+      config.from_file(&config_dir,&config_file);
+    }
+    log::debug!("Reading config from arguments.");
+    let mut args = args().skip(1);
+    let mut raw: usize = 0;
+    while let Some(arg) = args.next() {
+      match arg.as_str() {
+        option if self.ignore.contains(&option.to_string()) => {},
+        option if option.starts_with("--") => {
+          if let Some(option) = option.strip_prefix("--") {
+            match args.next() {
+              Some(value) => { config.set(&option.to_string(),&value.to_string()); },
+              None => {},
+            }
+          }
+        },
+        option if option.starts_with("-") => {
+          if let Some(option) = option.strip_prefix("-") {
+            if option.len() > 1 {
+              for flag in option.chars() {
+                if let Some(flag) = self.flags.get(&format!("-{}",flag)) && flag.arg {
+                  if let Some(ref value) = flag.value {
+                    config.set(&flag.key,&value);
+                  } else {
+                    config.set(&flag.key,&"true".to_string());
+                  }
+                }
+              }
+            } else {
+              if let Some(flag) = self.flags.get(&format!("-{}",option)) {
+                log::debug!("Flag: {:?}",flag);
+                if flag.arg {
+                  match args.next() {
+                    Some(value) => { config.set(&flag.key,&value.to_string()); },
+                    None => {},
+                  }
+                } else if let Some(ref value) = flag.value {
+                  config.set(&flag.key,&value);
+                } else {
+                  config.set(&flag.key,&"true".to_string());
+                }
+              }
+            }
+          }
+        },
+        value => {
+          if raw < self.arguments.len() {
+            config.set(&self.arguments[raw],&value.to_string());
+            raw += 1;
+          }
+        },
+      }
+    }
+    config
+  }
+}
+
+    
+
+///////////// ConfigFlag
+
+#[derive(Debug, Clone)]
+pub struct ConfigFlag {
+  pub key:   String,
+  pub arg:   bool,
+  pub value: Option<String>,
+}
+
+impl ConfigFlag {
+  pub fn new(key: &str, arg: bool, value: Option<&str>) -> Self {
+    Self {
+      key:  key.to_string(),
+      arg:  arg,
+      value: match value { Some(value) => Some(value.to_string()), None => None },
+    }
+  }
+}
 
 ///////////// Config
 
@@ -19,8 +111,10 @@ pub struct Config {
 
 impl fmt::Display for Config {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    let key_width: usize = self.config.keys().map(|k| k.len()).max().unwrap_or(0);
-    let config: String = self.config.iter().map(|(parameter,value)| { let key = format!("    {}:",parameter); format!("{:<width$} {}",key,value, width=key_width) }).collect::<Vec<String>>().join("\n");
+    let key_width: usize = self.config.keys().map(|k| k.len()).max().unwrap_or(0) + 5;
+    log::debug!("{}",key_width);
+    let mut config: Vec<String> = self.config.iter().map(|(parameter,value)| { let key = format!("    {}:",parameter); format!("{:<width$} {}",key,value, width=key_width) }).collect::<Vec<String>>();
+    config.sort();
     write!(f,
 "
   -----------------------------------
@@ -31,17 +125,17 @@ impl fmt::Display for Config {
 
   -----------------------------------
 ",
-      config,
+      config.join("\n"),
     )
   }
 }
 
 impl Config {
-  pub fn new() -> Config {
+  pub fn new(config_dir: &String, config_file: &String) -> Config {
     let mut config: Self = Self {
       config: HashMap::new(),
     };
-    config.from_file();
+    config.from_file(&config_dir.clone(),&config_file.clone());
     config.from_args();
     config
   }
@@ -50,13 +144,15 @@ impl Config {
     self.config.get(&parameter.to_string()).cloned().unwrap_or_default()
   }
 
+  pub fn set(&mut self, parameter: &String, value: &String) -> Option<String> {
+    self.config.insert(parameter.clone(),value.clone())
+  } 
+
   pub fn from_hashmap(defaults: &HashMap<String,String>) -> Config {
     log::debug!("Loading config with defaults.");
-    let mut config: Self = Self {
+    let config: Self = Self {
       config: defaults.clone()
     };
-    config.from_file();
-    config.from_args();
     config
   }
 
@@ -77,10 +173,9 @@ impl Config {
     }
   } 
 
-  pub fn from_file(&mut self) {
+  pub fn from_file(&mut self, config_dir: &String, config_file: &String) {
     log::debug!("Finding default config directory and default config file.");
-    let config_dir: String = DEFAULT_CONFIG_DIR.to_string();
-    let mut config_file = format!("{}/{}",config_dir,DEFAULT_CONFIG_FILE);
+    let mut config_file = format!("{}/{}",config_dir,config_file);
     let mut args: Args = args();
     while let Some(arg) = args.next() {
       match arg.as_str() {

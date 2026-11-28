@@ -24,6 +24,15 @@ Usage: lorebook [(OPTIONS)]
 Options:
 
   --mode <MODE>                        Mode to run in (default: cli, choices: cli, help)
+
+  --intro <INTRO>                      Introduction to interactive storytelling default:
+
+  Long ago, when the dew of creation was fresh upon the fresh upon the heather, and the mists had not yet parted, and the stars in the skup were still few and bright...
+
+  Let us tell a tale together!
+
+  --prompt <PROMPT>                    Prompt template for interactive storytelling (default: [Lorebook] {}> )
+
   --help                               Display this help message
   --version                            Display version
 ```
